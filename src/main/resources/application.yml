@@ -1,0 +1,6 @@
+quarkus:
+  quinoa:
+    ui-root-path: quinoa
+    package-manager-install:
+      ~: true
+      node-version: 20.16.0
