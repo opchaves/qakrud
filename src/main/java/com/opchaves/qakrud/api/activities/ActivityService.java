@@ -31,6 +31,7 @@ public class ActivityService {
   }
 
   public Uni<List<Activity>> findAll() {
+    Log.debug("Finding all activities");
     return Activity.findAll().list();
   }
 

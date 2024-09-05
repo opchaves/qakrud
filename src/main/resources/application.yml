@@ -2,6 +2,13 @@ quarkus:
   application:
     name: qakrud
 
+  log:
+    level: INFO
+    console:
+      format: "%d{HH:mm:ss} %-5p traceId=%X{traceId}, parentId=%X{parentId}, spanId=%X{spanId}, sampled=%X{sampled} [%c{2.}] (%t) %s%e%n"
+      level: DEBUG
+      darken: 1
+
   quinoa:
     ui-root-path: app
     package-manager-install:
@@ -35,6 +42,10 @@ quarkus:
 
 "%dev":
   quarkus:
+    log:
+      category:
+        "com.opchaves":
+            level: DEBUG
     datasource:
       db-kind: postgresql
       username: quarkus
@@ -44,10 +55,4 @@ quarkus:
     hibernate-orm:
       sql-load-script: import-dev.sql
       log:
-        sql: true
-
-# TODO: useful to create initial data that is not yet present
-# "%prod":
-#   quarkus:
-#     hibernate-orm:
-#       sql-load-script: import.sql
+        sql: false
