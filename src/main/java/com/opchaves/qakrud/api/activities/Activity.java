@@ -27,7 +27,11 @@ import jakarta.validation.constraints.Positive;
 public class Activity extends PanacheEntityBase {
 
   @Id
-  @SequenceGenerator(name = "activities_id_seq", sequenceName = "activities_id_seq", initialValue = 1, allocationSize = 1)
+  @SequenceGenerator(
+    name = "activities_id_seq",
+    sequenceName = "activities_id_seq",
+    initialValue = 1,
+    allocationSize = 1)
   @GeneratedValue(generator = "activities_id_seq", strategy = GenerationType.SEQUENCE)
   public Long id;
 
@@ -59,17 +63,23 @@ public class Activity extends PanacheEntityBase {
   @Column(name = "this_type", nullable = false)
   public ActivityType type;
 
-  @Schema(description = "The date and time when the activity happened", example = "2024-09-01T10:00:00")
+  @Schema(
+    description = "The date and time when the activity happened",
+    example = "2024-09-01T10:00:00")
   @FutureOrPresent
   @Column(name = "handled_at", nullable = false)
   public LocalDateTime handledAt;
 
-  @Schema(description = "The date and time when the activity was created", example = "2024-09-01T10:00:00")
+  @Schema(
+    description = "The date and time when the activity was created",
+    example = "2024-09-01T10:00:00")
   @CreationTimestamp
   @Column(name = "created_at", nullable = false)
   public LocalDateTime createdAt;
 
-  @Schema(description = "The date and time when the activity was updated", example = "2024-09-01T10:00:00")
+  @Schema(
+    description = "The date and time when the activity was updated",
+    example = "2024-09-01T10:00:00")
   @UpdateTimestamp
   @Column(name = "updated_at", nullable = false)
   public LocalDateTime updatedAt;

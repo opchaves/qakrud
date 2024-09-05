@@ -31,23 +31,21 @@ public class ActivityController {
     this.activityService = activityService;
   }
 
-
   @GET
-  @Operation(summary = "Find all activities", description = "Find all activities optionally filtered by category")
+  @Operation(
+    summary = "Find all activities",
+    description = "Find all activities optionally filtered by category")
   @APIResponse(
-      responseCode = "200",
-      description = "The list of activities",
-      content = @Content(
-          mediaType = APPLICATION_JSON,
-          schema = @Schema(implementation = Activity.class, type = SchemaType.ARRAY)
-      )
-  )
-  public Uni<List<Activity>> findAllActivities(
-      @Parameter(name = "category", description = "An optional filter parameter to filter results by category") @QueryParam("category") Optional<String> category) {
+    responseCode = "200",
+    description = "The list of activities",
+    content = @Content(
+      mediaType = APPLICATION_JSON,
+      schema = @Schema(implementation = Activity.class, type = SchemaType.ARRAY)))
+  public Uni<List<Activity>> findAllActivities(@Parameter(
+    name = "category",
+    description = "An optional filter parameter to filter results by category") @QueryParam("category") Optional<String> category) {
 
-    return category
-        .map(this.activityService::findByCategory)
-        .orElseGet(activityService::findAll)
+    return category.map(this.activityService::findByCategory).orElseGet(activityService::findAll)
         .invoke(activities -> Log.debugf("Total activities found = %d", activities.size()));
   }
 }
