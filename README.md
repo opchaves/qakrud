@@ -73,3 +73,21 @@ Quinoa codestart added a tiny Vite app in src/main/webui. The page is configured
 Easily start your REST Web Services
 
 [Related guide section...](https://quarkus.io/guides/getting-started-reactive#reactive-jax-rs-resources)
+
+### Docker
+
+Start a container
+
+```sh
+docker run -it --rm=true --name qakrud-db \
+    -e POSTGRES_USER=quarkus \
+    -e POSTGRES_PASSWORD=quarkus \
+    -e POSTGRES_DB=qakrud \
+    -p 5432:5432 postgres:16
+```
+
+Using psql to run queries
+
+```sh
+docker compose exec postgres psql -U quarkus -d qakrud
+```

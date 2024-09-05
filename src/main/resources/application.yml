@@ -1,6 +1,53 @@
 quarkus:
+  application:
+    name: qakrud
+
   quinoa:
-    ui-root-path: quinoa
+    ui-root-path: app
     package-manager-install:
       ~: true
       node-version: 20.16.0
+
+  jackson:
+    serialization-inclusion: non-empty
+
+  smallrye-openapi:
+    info-title: QAKrud API
+    info-description: This API allows CRUD operations on various resources
+    info-version: 1.0
+    info-contact-name: Quarkus
+    info-contact-url: https://github.com/quarkusio
+
+  datasource:
+    db-kind: postgresql
+    db-version: 16.0
+    reactive:
+      max-size: 20
+
+  hibernate-orm:
+    dialect: org.hibernate.dialect.PostgreSQLDialect
+
+"%dev,test":
+  quarkus:
+    hibernate-orm:
+      database:
+        generation: drop-and-create
+
+"%dev":
+  quarkus:
+    datasource:
+      db-kind: postgresql
+      username: quarkus
+      password: quarkus
+      reactive:
+        url: vertx-reactive:postgresql://localhost:5432/qakrud
+    hibernate-orm:
+      sql-load-script: import-dev.sql
+      log:
+        sql: true
+
+# TODO: useful to create initial data that is not yet present
+# "%prod":
+#   quarkus:
+#     hibernate-orm:
+#       sql-load-script: import.sql

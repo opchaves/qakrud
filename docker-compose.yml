@@ -1,0 +1,22 @@
+services:
+  postgres:
+    image: postgres:16
+    environment:
+      POSTGRES_USER: quarkus
+      POSTGRES_PASSWORD: quarkus
+      DB_NAME: qakrud
+      DB_SCHEMA: api
+    volumes:
+      - ./db:/docker-entrypoint-initdb.d
+      - pg-data:/var/lib/postgresql/data
+    ports:
+      - 5432:5432
+    networks:
+      - backend
+
+volumes:
+  pg-data:
+
+networks:
+  backend:
+    driver: bridge

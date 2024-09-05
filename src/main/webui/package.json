@@ -4,9 +4,9 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite --base=/quinoa",
-    "build": "vite build --base=/quinoa",
-    "preview": "vite preview --base=/quinoa"
+    "dev": "vite --base=/app",
+    "build": "vite build --base=/app",
+    "preview": "vite preview --base=/app"
   },
   "devDependencies": {
     "vite": "^5.3.4"
