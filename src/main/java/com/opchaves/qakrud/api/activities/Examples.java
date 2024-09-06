@@ -10,6 +10,7 @@ final class Examples {
         "note": "I love pizza",
         "paid": true,
         "price": 10.00,
+        "type": "expense",
         "category": "Food"
       }
       """;

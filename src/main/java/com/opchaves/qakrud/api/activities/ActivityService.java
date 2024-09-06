@@ -42,37 +42,35 @@ public class ActivityService {
 
   public Uni<Activity> findActivityById(Long id) {
     Log.debugf("Finding activity by id = %d", id);
-    return Activity.<Activity>findById(id)
-        .onItem()
-        .ifNull()
+    return Activity.<Activity>findById(id).onItem().ifNull()
         .failWith(new WebApplicationException("Not Found", Status.NOT_FOUND));
   }
 
   @WithTransaction
-  public Uni<Activity> persistActivity(@NotNull @Valid Activity activity) {
+  public Uni<Activity> persistActivity(Activity activity) {
     Log.debugf("Persisting activity = %s", activity);
-    return activity.persist();
+    return Uni.createFrom().item(() -> {
+      var a = new Activity();
+      this.activityFullUpdateMapper.mapFullUpdate(activity, a);
+      return a;
+    }).onItem().call(a -> a.persist());
   }
 
   @WithTransaction
   public Uni<Activity> replaceActivity(@NotNull @Valid Activity activity) {
     Log.debugf("Replacing activity = %s", activity);
-    return findActivityById(activity.id)
-        .onItem()
-        .transform(a -> {
-          this.activityFullUpdateMapper.mapFullUpdate(activity, a);
-          return a;
-        });
+    return findActivityById(activity.id).onItem().transform(a -> {
+      this.activityFullUpdateMapper.mapFullUpdate(activity, a);
+      return a;
+    });
   }
 
   public Uni<Activity> partiallyUpdateActivity(@NotNull @Valid Activity activity) {
     Log.debugf("Partially updating activity = %s", activity);
-    return findActivityById(activity.id)
-        .onItem().transform(a -> {
-          this.activityPartialUpdateMapper.mapPartialUpdate(activity, a);
-          return a;
-        })
-        .onItem().transform(this::validatePartialUpdate);
+    return findActivityById(activity.id).onItem().transform(a -> {
+      this.activityPartialUpdateMapper.mapPartialUpdate(activity, a);
+      return a;
+    }).onItem().transform(this::validatePartialUpdate);
   }
 
   @WithTransaction

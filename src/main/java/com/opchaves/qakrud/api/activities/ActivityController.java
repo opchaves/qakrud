@@ -27,7 +27,10 @@ import jakarta.ws.rs.POST;
 import jakarta.ws.rs.Path;
 import jakarta.ws.rs.Produces;
 import jakarta.ws.rs.QueryParam;
+import jakarta.ws.rs.core.Context;
 import jakarta.ws.rs.core.HttpHeaders;
+import jakarta.ws.rs.core.Response;
+import jakarta.ws.rs.core.UriInfo;
 
 @Path("/api/activities")
 @Tag(name = "activities")
@@ -68,15 +71,21 @@ public class ActivityController {
   @APIResponse(
     responseCode = "400",
     description = "Invalid activity passed in (or no request body found)")
-  public Uni<Activity> createActivity(@RequestBody(
-    name = "activity",
-    required = true,
-    content = @Content(
-      mediaType = APPLICATION_JSON,
-      schema = @Schema(implementation = Activity.class),
-      examples = @ExampleObject(
-        name = "valid_activity",
-        value = Examples.VALID_CREATE_ACTIVITY_JSON))) @Valid @NotNull Activity activity) {
-    return activityService.persistActivity(activity);
+  public Uni<Response> createActivity(
+      @RequestBody(
+        name = "activity",
+        required = true,
+        content = @Content(
+          mediaType = APPLICATION_JSON,
+          schema = @Schema(implementation = Activity.class),
+          examples = @ExampleObject(
+            name = "valid_activity",
+            value = Examples.VALID_CREATE_ACTIVITY_JSON))) @Valid @NotNull Activity activity,
+      @Context UriInfo uriInfo) {
+    return activityService.persistActivity(activity).map(a -> {
+      var uri = uriInfo.getAbsolutePathBuilder().path(Long.toString(a.id)).build();
+      Log.debugf("New Activity created with URI %s", uri);
+      return Response.created(uri).build();
+    });
   }
 }
