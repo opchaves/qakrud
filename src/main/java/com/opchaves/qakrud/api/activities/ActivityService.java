@@ -52,6 +52,7 @@ public class ActivityService {
     return Uni.createFrom().item(() -> {
       var a = new Activity();
       this.activityFullUpdateMapper.mapFullUpdate(activity, a);
+      Log.debugf("Mapped activity = %s", a);
       return a;
     }).onItem().call(a -> a.persist());
   }
