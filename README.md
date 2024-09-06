@@ -76,18 +76,20 @@ Easily start your REST Web Services
 
 ### Docker
 
-Start a container
+Start a container with dev and test databases
 
 ```sh
-docker run -it --rm=true --name qakrud-db \
-    -e POSTGRES_USER=quarkus \
-    -e POSTGRES_PASSWORD=quarkus \
-    -e POSTGRES_DB=qakrud \
-    -p 5432:5432 postgres:16
+docker compose up -d --build
 ```
 
 Using psql to run queries
 
 ```sh
 docker compose exec postgres psql -U quarkus -d qakrud
+```
+
+### Running integration tests
+
+```sh
+./mvnw verify -DskipITs=false -Dquarkus.test.integration-test-profile=test
 ```

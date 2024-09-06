@@ -25,34 +25,42 @@ quarkus:
     info-contact-name: Quarkus
     info-contact-url: https://github.com/quarkusio
 
-  datasource:
-    db-kind: postgresql
-    db-version: 16.0
-    reactive:
-      max-size: 20
-
-  hibernate-orm:
-    dialect: org.hibernate.dialect.PostgreSQLDialect
-
-"%dev,test":
-  quarkus:
-    hibernate-orm:
-      database:
-        generation: drop-and-create
-
 "%dev":
   quarkus:
+    datasource:
+      username: quarkus
+      password: quarkus
+      db-kind: postgresql
+      db-version: 16.0
+      reactive:
+        url: postgresql://localhost:5432/qakrud
+        max-size: 20
+    hibernate-orm:
+      sql-load-script: import-dev.sql
+      database:
+        generation: drop-and-create
+      log:
+        sql: false
     log:
       category:
         "com.opchaves":
             level: DEBUG
+
+"%test":
+  quarkus:
     datasource:
-      db-kind: postgresql
+      devservices:
       username: quarkus
       password: quarkus
+      db-kind: postgresql
+      db-version: 16.0
       reactive:
-        url: vertx-reactive:postgresql://localhost:5432/qakrud
+        url: postgresql://localhost:5432/qakrud_test
+        min-size: 2
+        max-size: 8
     hibernate-orm:
-      sql-load-script: import-dev.sql
+      sql-load-script: import-test.sql
+      database:
+        generation: drop-and-create
       log:
         sql: false
