@@ -93,3 +93,9 @@ docker compose exec postgres psql -U quarkus -d qakrud
 ```sh
 ./mvnw verify -DskipITs=false -Dquarkus.test.integration-test-profile=test
 ```
+
+### Things that are difficult
+
+Having a migration tool (Flyway, Liquibase) to work nicely with Hibernate Reactive. They seem to require the JDBC driver to be present.
+I haven't put much effort yet to implement that. I have to dig into the Quarkus documentation and find some helpful repositories that have
+already dealt with this situation.
