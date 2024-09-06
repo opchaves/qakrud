@@ -57,7 +57,8 @@ public class ActivityController {
     name = "category",
     description = "An optional filter parameter to filter results by category") @QueryParam("category") Optional<String> category) {
 
-    return category.map(this.activityService::findByCategory).orElseGet(activityService::findAll)
+    return category.map(this.activityService::findByCategory)
+        .orElseGet(activityService::findAll)
         .invoke(activities -> Log.debugf("Total activities found = %d", activities.size()));
   }
 

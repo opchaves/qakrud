@@ -52,8 +52,12 @@ public class ActivityControllerTestIT {
   void shouldCreateActivity() {
     var activity = createValidActivity();
 
-    given().when().body(activity).contentType(APPLICATION_JSON)
-        .accept(APPLICATION_JSON).post("/api/activities").then()
+    given().when()
+        .body(activity)
+        .contentType(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .post("/api/activities")
+        .then()
         .statusCode(Response.Status.CREATED.getStatusCode())
         .header(HttpHeaders.LOCATION, containsString("/api/activities/1"));
 
@@ -65,8 +69,12 @@ public class ActivityControllerTestIT {
     var activity = createValidActivity();
     activity.type = null;
 
-    given().when().body(activity).contentType(APPLICATION_JSON)
-        .accept(APPLICATION_JSON).post("/api/activities").then()
+    given().when()
+        .body(activity)
+        .contentType(APPLICATION_JSON)
+        .accept(APPLICATION_JSON)
+        .post("/api/activities")
+        .then()
         .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
   }
 }
