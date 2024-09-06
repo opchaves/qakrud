@@ -20,6 +20,7 @@ import jakarta.persistence.Id;
 import jakarta.persistence.SequenceGenerator;
 import jakarta.validation.constraints.FutureOrPresent;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Positive;
 
 @Entity(name = "activities")
@@ -49,15 +50,18 @@ public class Activity extends PanacheEntityBase {
   @Column
   public boolean paid;
 
+  @NotNull
   @Schema(description = "The price of the activity", example = "10.00")
   @Column(nullable = false)
   @Positive
   public BigDecimal price;
 
+  @NotBlank
   @Schema(description = "The category of the activity", example = "Food")
   @Column(nullable = false)
   public String category;
 
+  @NotNull
   @Schema(description = "The type of the activity", example = "expense")
   @Enumerated(EnumType.STRING)
   @Column(name = "this_type", nullable = false)

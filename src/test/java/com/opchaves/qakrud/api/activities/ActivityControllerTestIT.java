@@ -2,6 +2,7 @@ package com.opchaves.qakrud.api.activities;
 
 import static io.restassured.RestAssured.given;
 import static jakarta.ws.rs.core.MediaType.APPLICATION_JSON;
+import static jakarta.ws.rs.core.Response.Status.BAD_REQUEST;
 import static org.hamcrest.CoreMatchers.containsString;
 import static org.hamcrest.CoreMatchers.is;
 
@@ -75,6 +76,6 @@ public class ActivityControllerTestIT {
         .accept(APPLICATION_JSON)
         .post("/api/activities")
         .then()
-        .statusCode(Response.Status.BAD_REQUEST.getStatusCode());
+        .statusCode(BAD_REQUEST.getStatusCode());
   }
 }
